@@ -46,8 +46,10 @@ export default class EvilTank {
 		this.arenaPos2 = 0;
 		this.text = "";
 		this.textSize = 0;
-		this.hitbox = [new Rect(this.x, this.y, this.width, this.height),
-									 new Rect(this.x, this.y, this.width, this.height)];
+		this.hitbox = [
+			new Rect(this.x, this.y, this.width, this.height),
+			new Rect(this.x, this.y, this.width, this.height)
+		];
 		this.inWallLogic = {toOut: 0, movedOut: 0};
 	}
 	update(entities, ctx, dt) {
@@ -89,9 +91,11 @@ export default class EvilTank {
 		//explosion
 		if (this.animate) {
 			this.animationTimer += 1 *dt;
-			ctx.drawImage(this.boosterTexture,
-										Math.floor(this.animationTimer/(this.animationSpeed/this.animationFrames))*96,
-										0, 96, 96, this.x, this.y+20, 96, 96);
+			ctx.drawImage(
+				this.boosterTexture,
+				Math.floor(this.animationTimer/(this.animationSpeed/this.animationFrames))*96,
+				0, 96, 96, this.x, this.y+20, 96, 96
+			);
 			if (this.animationTimer > this.animationSpeed) {
 				this.animate = false;
 				this.animationTimer = 0;
@@ -133,6 +137,7 @@ export default class EvilTank {
 		if (this.vel.x > 0 && this.vel.x < 0.1) {this.vel.x = 0;}
 		if (this.vel.x > -0.1 && this.vel.x < 0) {this.vel.x = 0;}
 	}
+
 	moveY(dt) {
 		this.y += this.vel.y *dt;
 		this.vel.y += 15/60 * dt;
@@ -181,9 +186,11 @@ export default class EvilTank {
 			this.vel.x = 0;
 		}
 		for (var i in entities) {
-			if (colliding(this.x - this.width, this.width, entities[i].x, entities[i].width,
-										this.y, this.height, entities[i].y, entities[i].height,
-										entities[i].colliding)) {
+			if (colliding(
+				this.x - this.width, this.width, entities[i].x, entities[i].width,
+				this.y, this.height, entities[i].y, entities[i].height,
+				entities[i].colliding
+			)) {
 				if (entities[i].type == "level") {
 					if (this.x-this.width/2 < entities[i].x+entities[i].width) {
 						this.x = entities[i].x;
@@ -211,12 +218,15 @@ export default class EvilTank {
 			}
 		}
 	}
+
 	collidesWithY(entities, dt) {
 		this.onGround = false;
 		for (var i in entities) {
-			if (colliding(this.x - this.width, this.width, entities[i].x, entities[i].width,
-										this.y, this.height, entities[i].y, entities[i].height,
-										entities[i].colliding)) {
+			if (colliding(
+				this.x - this.width, this.width, entities[i].x, entities[i].width,
+				this.y, this.height, entities[i].y, entities[i].height,
+				entities[i].colliding
+			)) {
 				if (entities[i].type == "level") {
 					this.onGround = true;
 					this.y = entities[i].y - this.height;
@@ -258,10 +268,12 @@ export default class EvilTank {
 		ctx.fillStyle = "rgb("+r+", "+g+", 0)";
 		this.text = "survive: " + Math.round(this.timer/10);
 		this.textSize = ctx.measureText(this.text);
-		ctx.fillText(this.text,
-								this.x-this.width-(this.toTank.x-this.tankWidth)/2-this.textSize.width/2, this.y-this.toTank.y/2);
-		ctx.strokeText(this.text,
-								this.x-this.width-(this.toTank.x-this.tankWidth)/2-this.textSize.width/2, this.y-this.toTank.y/2);
+		ctx.fillText(
+			this.text, this.x-this.width-(this.toTank.x-this.tankWidth)/2-this.textSize.width/2, this.y-this.toTank.y/2
+		);
+		ctx.strokeText(
+			this.text, this.x-this.width-(this.toTank.x-this.tankWidth)/2-this.textSize.width/2, this.y-this.toTank.y/2
+		);
 		if (this.timer <= 0) {
 			entities.push(new HealthPack(this.x, this.y));
 			this.dead = true;

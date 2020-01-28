@@ -1,4 +1,3 @@
-import {randomInt} from "./utils.js";
 import Rect from "./rectangle.js";
 
 export default class Level {
@@ -30,8 +29,10 @@ export default class Level {
 		this.type = "solid";
 		this.dead = false;
 		this.colliding = true;
-		this.hitbox = [new Rect(this.x, this.y, this.width, this.height),
-									 new Rect(this.x, this.y, this.width, this.height)];
+		this.hitbox = [
+			new Rect(this.x, this.y, this.width, this.height),
+			new Rect(this.x, this.y, this.width, this.height)
+		];
 		//draw
 		for (var i = 0; i < this.tileHeight; i++) {
 			for (var n = 0; n < this.tileWidth; n++) {

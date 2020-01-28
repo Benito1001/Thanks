@@ -1,4 +1,4 @@
-import {randomInt, colliding, hitboxCollideX, hitboxCollideY} from "./utils.js";
+import {hitboxCollideX, hitboxCollideY} from "./utils.js";
 import Vecc from "./vectorz.js";
 import Bullet from "./bullet.js";
 import Rect from "./rectangle.js";
@@ -49,6 +49,7 @@ export default class Tank {
 		this.stepSize = 7*this.tileSize;
 		this.inWallLogic = {toOut: 0, movedOut: 0};
 	}
+
 	update(entities, ctx, dt) {
 		if (this.start) {
 			this.updateX(entities, ctx, dt);
@@ -78,9 +79,11 @@ export default class Tank {
 	draw(ctx, dt) {
 		if (this.animate) {
 			this.animationTimer += 1 *dt;
-			ctx.drawImage(this.boosterTexture,
-										Math.floor(this.animationTimer/(this.animationSpeed/this.animationFrames))*96,
-										0, 96, 96, this.x, this.y+20, 96, 96);
+			ctx.drawImage(
+				this.boosterTexture,
+				Math.floor(this.animationTimer/(this.animationSpeed/this.animationFrames))*96,
+				0, 96, 96, this.x, this.y+20, 96, 96
+			);
 			if (this.animationTimer > this.animationSpeed) {
 				this.animate = false;
 				this.animationTimer = 0;
@@ -129,6 +132,7 @@ export default class Tank {
 		if (this.vel.x > -0.01 && this.vel.x < 0) {this.vel.x = 0;}
 		this.x += this.vel.x * dt;
 	}
+
 	moveY(dt) {
 		this.vel.y += 15/60 * dt;
 		this.y += this.vel.y * dt;
@@ -184,6 +188,7 @@ export default class Tank {
 			}
 		}
 	}
+
 	collidesWithY(entities, dt) {
 		this.onGround = false;
 		for (var i in entities) {
@@ -328,6 +333,7 @@ export default class Tank {
 		this.animate = false;
 		this.animationTimer = 0;
 	}
+
 	checkPos(checkpoints) {
 		for (var i = 0; i < checkpoints.length; i++) {
 			if (this.x < checkpoints[i].x) {

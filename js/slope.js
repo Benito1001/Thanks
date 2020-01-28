@@ -1,4 +1,3 @@
-import {randomInt} from "./utils.js";
 import Rect from "./rectangle.js";
 
 export default class Slope {
@@ -38,6 +37,7 @@ export default class Slope {
 			}
 		}
 	}
+
 	update(entities, ctx, dt) {
 		this.updateX(entities, ctx, dt);
 		this.updateY(entities, ctx, dt);

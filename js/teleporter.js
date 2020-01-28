@@ -24,6 +24,7 @@ export default class Teleporter {
 			new Rect(this.x+this.width*0.4, this.y, this.width*0.2, this.height*0.8)
 		];
 	}
+
 	update(entities, ctx, dt) {
 		this.rotate = this.rotate%360 + 5;
 	}

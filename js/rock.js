@@ -1,4 +1,3 @@
-import {randomInt} from "./utils.js";
 import Rect from "./rectangle.js";
 
 export default class Rock {
@@ -31,6 +30,7 @@ export default class Rock {
 			}
 		}
 	}
+
 	update(entities, ctx, dt) {
 		this.updateX(entities, ctx, dt);
 		this.updateY(entities, ctx, dt);

@@ -1,4 +1,4 @@
-import {randomInt, getRandomInt, hitboxCollideX, hitboxCollideY} from "./utils.js";
+import {randomInt, hitboxCollideX, hitboxCollideY} from "./utils.js";
 import Vecc from "./vectorz.js";
 import Rect from "./rectangle.js";
 import Wall from "./wall.js";
@@ -38,8 +38,10 @@ export default class Chopper {
 		this.dying = false;
 		this.fighting = false;
 		this.drawGrabber = false;
-		this.hitbox = [new Rect(this.x, this.y, this.width, this.height),
-									 new Rect(this.x, this.y, this.width, this.height)];
+		this.hitbox = [
+			new Rect(this.x, this.y, this.width, this.height),
+			new Rect(this.x, this.y, this.width, this.height)
+		];
 		//moving
 		this.moving = true;
 		for (var i in entities) {
@@ -120,17 +122,12 @@ export default class Chopper {
 		if (this.drawGrabber) {
 			ctx.fillRect(this.x+this.width/2-5, this.y+this.height-7*this.tileSize, 10, this.toFemale)
 		}
-		/*
-		ctx.fillStyle = "rgb(0, 0, 0)";
-		for (var i = 0; i < this.hitbox.length; i++) {
-			ctx.strokeRect(this.hitbox[i].x, this.hitbox[i].y, this.hitbox[i].width, this.hitbox[i].height);
-		}
-		*/
 	}
 
 	moveX(dt) {
 		this.x += this.vel.x * dt;
 	}
+
 	moveY(dt) {
 		this.y += this.vel.y * dt;
 	}
@@ -141,6 +138,7 @@ export default class Chopper {
 			}
 		}
 	}
+
 	collidesWithY(entities, dt) {
 		this.onGround = false;
 		for (var i in entities) {
@@ -193,6 +191,7 @@ export default class Chopper {
 			}
 		}
 	}
+
 	bossAi(entities, ctx, dt) {
 		for (var i in entities) {
 			if (entities[i].type == "tank") {
@@ -250,7 +249,6 @@ export default class Chopper {
 			this.vel.x = 0;
 		}
 	}
-
 
 	updateHitbox(type) {
 		if (type == "x") {

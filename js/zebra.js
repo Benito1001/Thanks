@@ -1,4 +1,4 @@
-import {randomInt, getRandomInt, hitboxCollideX, hitboxCollideY} from "./utils.js";
+import {randomInt, hitboxCollideX, hitboxCollideY} from "./utils.js";
 import Vecc from "./vectorz.js";
 import Rect from "./rectangle.js";
 
@@ -25,12 +25,14 @@ export default class Zebra {
 		this.animationFrames = 5;
 		this.onGround = false;
 		this.dying = false;
-		this.hitbox = [new Rect(this.x, this.y, this.width, this.height),
-									 new Rect(this.x+11*this.tileSize, this.y+10*this.tileSize,
-														this.width-17*this.tileSize, this.height-10*this.tileSize),
-									 new Rect(this.x, this.y, 18*this.tileSize, 15*this.tileSize)];
+		this.hitbox = [
+			new Rect(this.x, this.y, this.width, this.height),
+			new Rect(this.x+11*this.tileSize, this.y+10*this.tileSize, this.width-17*this.tileSize, this.height-10*this.tileSize),
+			new Rect(this.x, this.y, 18*this.tileSize, 15*this.tileSize)
+		];
 		this.inWallLogic = {toOut: 0, movedOut: 0};
 	}
+
 	update(entities, ctx, dt) {
 		this.ai(dt);
 		this.updateX(entities, ctx, dt);
@@ -49,6 +51,7 @@ export default class Zebra {
 		this.collidesWithX(entities, dt);
 		this.updateHitbox("x");
 	}
+
 	updateY(entities, ctx, dt) {
 		this.moveY(dt);
 		this.updateHitbox("y");
@@ -68,17 +71,12 @@ export default class Zebra {
 				ctx.restore();
 			}
 		}
-		/*
-		ctx.fillStyle = "rgb(0, 0, 0)";
-		for (var i = 0; i < this.hitbox.length; i++) {
-			ctx.strokeRect(this.hitbox[i].x, this.hitbox[i].y, this.hitbox[i].width, this.hitbox[i].height);
-		}
-		*/
 	}
 
 	moveX(dt) {
 		this.x += this.vel.x * dt;
 	}
+
 	moveY(dt) {
 		this.y += this.vel.y * dt;
 		this.vel.y += 1 * dt;
@@ -90,6 +88,7 @@ export default class Zebra {
 			}
 		}
 	}
+
 	collidesWithY(entities, dt) {
 		this.onGround = false;
 		for (var i in entities) {

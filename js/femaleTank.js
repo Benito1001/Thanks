@@ -1,4 +1,4 @@
-import {randomInt, colliding, hitboxCollideX, hitboxCollideY} from "./utils.js";
+import {hitboxCollideX, hitboxCollideY} from "./utils.js";
 import Vecc from "./vectorz.js";
 import Rect from "./rectangle.js";
 
@@ -22,9 +22,12 @@ export default class FemaleTank {
 		this.hp = this.maxHp;
 		this.hpMargin = 20;
 		this.hpBarHeight = 20;
-		this.hitbox = [new Rect(this.x, this.y, this.width, this.height),
-									 new Rect(this.x, this.y, this.width, this.height)];
+		this.hitbox = [
+			new Rect(this.x, this.y, this.width, this.height),
+			new Rect(this.x, this.y, this.width, this.height)
+		];
 	}
+
 	update(entities, ctx, dt) {
 		this.updateX(entities, ctx, dt);
 		this.updateY(entities, ctx, dt);

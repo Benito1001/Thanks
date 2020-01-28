@@ -18,9 +18,9 @@ export default class Giraffe {
 		this.bodyTexture = 'giraffeBody';
 		this.tileSize = (this.width)/33;
 		this.height = this.width*(
-										(document.getElementById(this.bodyTexture).height+document.getElementById(this.neckTexture).height)
-										/(document.getElementById(this.bodyTexture).width+document.getElementById(this.neckTexture).width-4.4*this.tileSize)
-									);
+			(document.getElementById(this.bodyTexture).height+document.getElementById(this.neckTexture).height)
+			/(document.getElementById(this.bodyTexture).width+document.getElementById(this.neckTexture).width-4.4*this.tileSize)
+		);
 		this.neckLength = this.tileSize*21;
 		this.property = "solid";
 		this.type = "boss";
@@ -41,16 +41,19 @@ export default class Giraffe {
 		this.onGround = false;
 		this.dying = false;
 		this.activated = false;
-		this.hitbox = [new Rect(this.x, this.y, this.width+10*this.tileSize, this.height-4*this.tileSize),
-									 new Rect(0, 0, 21*this.tileSize, 17*this.tileSize),
-									 new Rect(0, 0, 0, 0),
-									 new Rect(0, 0, 0, 0)];
+		this.hitbox = [
+			new Rect(this.x, this.y, this.width+10*this.tileSize, this.height-4*this.tileSize),
+			new Rect(0, 0, 21*this.tileSize, 17*this.tileSize),
+			new Rect(0, 0, 0, 0),
+			new Rect(0, 0, 0, 0)
+		];
 		this.bonking = false;
 		this.retractBonk = false;
 		this.bonkTimer = 0;
 		this.timeSinceBonked = 0;
 		this.inWallLogic = {toOut: 0, movedOut: 0};
 	}
+
 	update(entities, ctx, dt) {
 		if (this.activated) {
 			this.ai(entities, dt);
@@ -71,6 +74,7 @@ export default class Giraffe {
 		this.collidesWithX(entities, dt);
 		this.updateHitbox("x");
 	}
+
 	updateY(entities, ctx, dt) {
 		if (!this.dying) {
 			this.moveY(dt);
@@ -84,9 +88,11 @@ export default class Giraffe {
 		// lightning
 		if (this.animate) {
 			this.animationTimer += 1*dt;
-			ctx.drawImage(this.animationTexture, 0,
+			ctx.drawImage(
+				this.animationTexture, 0,
 				Math.floor(this.animationTimer/(this.animationSpeed/this.animationFrames))*288,
-				164, 288, this.animationX, this.animationY+this.width-200*2, 164*2, 288*2);
+				164, 288, this.animationX, this.animationY+this.width-200*2, 164*2, 288*2
+			);
 			if (Math.floor(this.animationTimer/(this.animationSpeed/this.animationFrames)) >= 9) {
 				this.activated = true;
 			}
@@ -170,6 +176,7 @@ export default class Giraffe {
 	moveX(dt) {
 		this.x += this.vel.x * dt;
 	}
+
 	moveY(dt) {
 		this.y += this.vel.y * dt;
 		this.vel.y += 1 * dt;
@@ -181,6 +188,7 @@ export default class Giraffe {
 			}
 		}
 	}
+
 	collidesWithY(entities, dt) {
 		this.onGround = false;
 		for (var i in entities) {

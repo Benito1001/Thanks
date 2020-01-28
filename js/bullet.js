@@ -1,5 +1,4 @@
-import {randomInt, getRandomInt, hitboxCollideX, hitboxCollideY} from "./utils.js";
-import Vecc from "./vectorz.js";
+import {hitboxCollideX, hitboxCollideY} from "./utils.js";
 import Rect from "./rectangle.js";
 
 export default class Bullet {
@@ -15,8 +14,10 @@ export default class Bullet {
 		this.dead = false;
 		this.colliding = true;
 		this.dragCoefficient = 0.47;
-		this.hitbox = [new Rect(this.x, this.y, this.width, this.height),
-									 new Rect(this.x, this.y, this.width, this.height)];
+		this.hitbox = [
+			new Rect(this.x, this.y, this.width, this.height),
+			new Rect(this.x, this.y, this.width, this.height)
+		];
 		this.inWallLogic = {toOut: 0, movedOut: 0};
 	}
 	update(entities, ctx, dt) {

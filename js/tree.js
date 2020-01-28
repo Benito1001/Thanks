@@ -30,11 +30,8 @@ export default class Tree {
 
 	draw(ctx) {
 		ctx.drawImage(this.texture, this.x, this.y, this.width, this.height);
-		/*ctx.fillStyle = "rgb(0, 0, 0)";
-		for (var i = 0; i < this.hitbox.length; i++) {
-			ctx.strokeRect(this.hitbox[i].x, this.hitbox[i].y, this.hitbox[i].width, this.hitbox[i].height);
-		}*/
 	}
+
 	makeHitbox() {
 		//BoundingBox
 		this.hitbox.push(new Rect(this.x, this.y, this.width, this.height));
@@ -52,7 +49,5 @@ export default class Tree {
 		this.hitbox.push(new Rect(this.x, this.y+10*this.tileSize, this.width, 17*this.tileSize));
 		//stump
 		this.hitbox.push(new Rect(this.x+14*this.tileSize, this.y+27*this.tileSize, this.width-23*this.tileSize, this.height-27*this.tileSize));
-	}
-	updateHitbox(type) {
 	}
 }
