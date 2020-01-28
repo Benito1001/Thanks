@@ -1,6 +1,4 @@
-import {randomInt} from "./utils.js";
 import Rect from "./rectangle.js";
-import Enemy from "./enemy.js";
 
 export default class Wall {
 	constructor(x, y, width, height, id = -1) {

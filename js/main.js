@@ -2,13 +2,6 @@ import Tank from "./tank.js";
 import FemaleTank from "./femaleTank.js";
 import Level from "./level.js";
 import Chopper from "./chopper.js";
-import Enemy from "./enemy.js";
-import WallTrigger from "./wallTrigger.js";
-import EnemyTrigger from "./enemyTrigger.js";
-import EvilTank from "./evilTank.js";
-import Bouncer from "./bouncer.js";
-import HealthPack from "./healthPack.js";
-import Platform from "./platform.js";
 import Rock from "./rock.js";
 import Zebra from "./zebra.js";
 import Tree from "./tree.js";
@@ -16,90 +9,104 @@ import Giraffe from "./giraffe.js";
 import Slope from "./slope.js";
 import Wall from "./wall.js";
 import Teleporter from "./teleporter.js";
-import {randomInt, getRandomInt, colliding} from "./utils.js";
+import { colliding } from "./utils.js";
 
-var plainsBackground = document.getElementById('plainsBackground');
-var backgroundWidth = 7700+1100;
-var backgroundHeight = backgroundWidth*(plainsBackground.height/plainsBackground.width);
+var bodyDiv = document.getElementsByClassName('bodyDiv')[0];
 var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d');
 var scaleFactor = 0;
 
-var headerHeight = 2*document.getElementsByClassName('headerDiv')[0].clientHeight;
 
 resize();
 window.addEventListener("resize", resize);
 function resize() {
-	canvas.width = innerWidth-10;
-	canvas.height = innerHeight-headerHeight*1.5;
+	canvas.width = bodyDiv.offsetWidth;
+	canvas.height = bodyDiv.offsetHeight;
 	scaleFactor = innerHeight/891
 }
 
-var ticksSpent = 0;
 var dt = 1;
 var previousTime = 0;
 var run = true;
 
 var entities = [];
-var tank = new Tank()
+var tank;
 var dead = false;
 var c = 0;
 var r = 0;
 
 var addLength = 200;
 
+var backgroundWidth = 7700+1100;
+var plainsBackground;
+var backgroundHeight;
+
 var hpBarStart = 0;
 var hpBarWidth = 0;
-var checkpoints = []
-//Start
-entities.push(tank);
-entities.push(new FemaleTank(300, 127));
-entities.push(new Chopper(700, -180, "cutscene", entities));
-//Turtorial
-entities.push(new Level(0, 200, 5500, 600, "grassTile"));
-var currentX = addLength;
-checkpoints.push({x: currentX+150, y: 139});
+var checkpoints = [];
 var tutpos = 10;
-entities.push(new Rock(currentX + 350, 140, 100, 60));
-entities.push(new Zebra(currentX + 550, 0))
-entities.push(new Rock(currentX + 950, 170, 80, 30));
-entities.push(new Rock(currentX + 1135, 124, 120, 80));
-currentX += 1135
-//Treetrap
-entities.push(new Tree(currentX + 185, 15, 140));
-entities.push(new Rock(currentX + 285, 155, 240, 50));
-entities.push(new Tree(currentX + 465, 15, 140));
-entities.push(new Zebra(currentX + 715, 0));
-entities.push(new Zebra(currentX + 915, 0));
-currentX += 915;
-//Arena
-checkpoints.push({x: currentX + 200, y: 139});
-entities.push(new Slope(currentX + 370, 161, 50, 50, "right"));
-entities.push(new Wall(currentX + 414, 161, 1050, 50));
-entities.push(new Slope(currentX + 1460, 161, 50, 50, "left"));
-entities.push(new Giraffe(currentX + 915, -290));
-currentX += 1510
-//Zebro
-checkpoints.push({x: currentX + 200, y: 139});
-entities.push(new Rock(currentX + 600, 140, 100, 60));
-entities.push(new Zebra(currentX + 700, 0))
-entities.push(new Zebra(currentX + 900, 0))
-entities.push(new Zebra(currentX + 1100, 0))
-entities.push(new Tree(currentX + 1300, 100, 80));
-entities.push(new Tree(currentX + 1500, -40, 180));
-//Bossu
-checkpoints.push({x: 5405, y: 120});
-entities.push(new Level(5505, 300, 2000, 500, "grassTile"));
-entities.push(new Slope(5505, 200, 100, 100, "left"));
-entities.push(new Chopper(6505-150, -200, "boss", entities));
-entities.push(new Slope(7405, 200, 100, 100, "Right"));
-entities.push(new Level(7500, 200, 500, 600, "grassTile"));
-entities.push(new Teleporter(7500, 200-288, "Desert"))
-checkpoints.push({x: 7600, y: 139});
-checkpoints.push({x: 80000, y: 139});
 
-window.addEventListener("load", event => requestAnimationFrame(runGame));
-//window.addEventListener("load", function(event) {requestAnimationFrame(runGame); console.log(document.readyState);});
+window.addEventListener("load", event => {
+	plainsBackground = document.getElementById('plainsBackground');
+	backgroundHeight = backgroundWidth*(plainsBackground.height/plainsBackground.width);
+
+	//Initialize Entities
+
+	//Start
+	tank = new Tank();
+	entities.push(tank);
+	entities.push(new FemaleTank(300, 127));
+	entities.push(new Chopper(700, -180, "cutscene", entities));
+
+	//Turtorial
+	entities.push(new Level(0, 200, 5500, 600, "grassTile"));
+	var currentX = addLength;
+	checkpoints.push({x: currentX+150, y: 139});
+	entities.push(new Rock(currentX + 350, 140, 100, 60));
+	entities.push(new Zebra(currentX + 550, 0))
+	entities.push(new Rock(currentX + 950, 170, 80, 30));
+	entities.push(new Rock(currentX + 1135, 124, 120, 80));
+	currentX += 1135
+
+	//Treetrap
+	entities.push(new Tree(currentX + 185, 15, 140));
+	entities.push(new Rock(currentX + 285, 155, 240, 50));
+	entities.push(new Tree(currentX + 465, 15, 140));
+	entities.push(new Zebra(currentX + 715, 0));
+	entities.push(new Zebra(currentX + 915, 0));
+	currentX += 915;
+
+	//Arena
+	checkpoints.push({x: currentX + 200, y: 139});
+	entities.push(new Slope(currentX + 370, 161, 50, 50, "right"));
+	entities.push(new Wall(currentX + 414, 161, 1050, 50));
+	entities.push(new Slope(currentX + 1460, 161, 50, 50, "left"));
+	entities.push(new Giraffe(currentX + 915, -290));
+	currentX += 1510
+
+	//Zebro
+	checkpoints.push({x: currentX + 200, y: 139});
+	entities.push(new Rock(currentX + 600, 140, 100, 60));
+	entities.push(new Zebra(currentX + 700, 0))
+	entities.push(new Zebra(currentX + 900, 0))
+	entities.push(new Zebra(currentX + 1100, 0))
+	entities.push(new Tree(currentX + 1300, 100, 80));
+	entities.push(new Tree(currentX + 1500, -40, 180));
+
+	//Bossu
+	checkpoints.push({x: 5405, y: 120});
+	entities.push(new Level(5505, 300, 2000, 500, "grassTile"));
+	entities.push(new Slope(5505, 200, 100, 100, "left"));
+	entities.push(new Chopper(6505-150, -200, "boss", entities));
+	entities.push(new Slope(7405, 200, 100, 100, "Right"));
+	entities.push(new Level(7500, 200, 500, 600, "grassTile"));
+	entities.push(new Teleporter(7500, 200-288, "Desert"))
+	checkpoints.push({x: 7600, y: 139});
+	checkpoints.push({x: 80000, y: 139});
+
+	//Start Game
+	requestAnimationFrame(runGame);
+});
 
 function runGame(currentTime) {
 	//dt
@@ -287,10 +294,9 @@ function runGame(currentTime) {
 	requestAnimationFrame(runGame);
 }
 
-window.addEventListener('keydown', function (e) {
-	tank.keys = (tank.keys || {});
-	tank.keys[e.code] = true;
+window.addEventListener('keydown', event => {
+	tank.keys[event.code] = true;
 });
-window.addEventListener('keyup', function (e) {
-	tank.keys[e.code] = false;
+window.addEventListener('keyup', event => {
+	tank.keys[event.code] = false;
 });

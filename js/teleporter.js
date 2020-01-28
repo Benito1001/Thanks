@@ -15,12 +15,14 @@ export default class Teleporter {
 		this.dead = false;
 		this.colliding = true;
 		this.rotate = 0;
-		this.hitbox = [new Rect(this.x, this.y, this.width, this.height),
-			 						 new Rect(this.x, this.y+this.height*0.95, this.width, this.height*0.05),
-									 new Rect(this.x+this.width*0.15, this.y+this.height*0.9, this.width*0.7, this.height*0.05),
-									 new Rect(this.x+this.width*0.225, this.y+this.height*0.85, this.width*0.55, this.height*0.05),
-									 new Rect(this.x+this.width*0.26, this.y+this.height*0.8, this.width*0.48, this.height*0.05),
-									 new Rect(this.x+this.width*0.4, this.y, this.width*0.2, this.height*0.8)];
+		this.hitbox = [
+			new Rect(this.x, this.y, this.width, this.height),
+			new Rect(this.x, this.y+this.height*0.95, this.width, this.height*0.05),
+			new Rect(this.x+this.width*0.15, this.y+this.height*0.9, this.width*0.7, this.height*0.05),
+			new Rect(this.x+this.width*0.225, this.y+this.height*0.85, this.width*0.55, this.height*0.05),
+			new Rect(this.x+this.width*0.26, this.y+this.height*0.8, this.width*0.48, this.height*0.05),
+			new Rect(this.x+this.width*0.4, this.y, this.width*0.2, this.height*0.8)
+		];
 	}
 	update(entities, ctx, dt) {
 		this.rotate = this.rotate%360 + 5;
