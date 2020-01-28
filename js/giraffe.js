@@ -201,12 +201,12 @@ export default class Giraffe {
 		}
 		if (!this.bonking) {
 			if (randomInt(0, 100) > this.toTank.x/5) {
-				this.vel.x += 0.25;
+				this.vel.x += 0.25 * dt;
 			} else {
-				this.vel.x -= 0.25;
+				this.vel.x -= 0.25 * dt;
 			}
 			if (randomInt(0, 80) == 3 && this.onGround && this.hp == 2) {
-				this.vel.y -= 13;
+				this.vel.y -= 13 * dt;
 			}
 		}
 		if ((this.toTank.x <= this.neckLength) && !this.bonking && this.timeSinceBonked > 60) {
@@ -218,15 +218,15 @@ export default class Giraffe {
 	bonk(dt) {
 		if (this.bonking && this.bonkTimer > (Math.ceil(2*this.hp/this.maxHp)*30)) {
 			if (!this.retractBonk) {
-				this.rotateVel += 0.5
-				this.rotate += this.rotateVel;
+				this.rotateVel += 0.5 * dt;
+				this.rotate += this.rotateVel * dt;
 				if (this.rotate >= 210) {
 					this.rotateVel = 0;
 					this.retractBonk = true;
 				}
 			}
 			else {
-				this.rotateVel -= 0.5;
+				this.rotateVel -= 0.5 * dt;
 				this.rotate += this.rotateVel;
 				if (this.rotate <= 103) {
 					this.rotate = 103;
@@ -241,9 +241,9 @@ export default class Giraffe {
 			}
 		}
 		if (this.bonking) {
-			this.bonkTimer += 1*dt;
+			this.bonkTimer += 1 * dt;
 		} else {
-			this.timeSinceBonked += 1;
+			this.timeSinceBonked += 1 * dt;
 		}
 	}
 
@@ -285,7 +285,7 @@ export default class Giraffe {
 		//HeadHitbox
 			let box3pos = {};
 			//BottomLeft
-			box3pos.bottomLeft = {x: x, y:y};
+			box3pos.bottomLeft = {x: x, y: y};
 			//TopLeft
 			this.point.set(0, -this.tileSize*6);
 			this.point.rotate(rotateAmount);
@@ -302,7 +302,7 @@ export default class Giraffe {
 		//NeckHitbox
 			let box2pos = {};
 			//BottomLeft
-			box2pos.bottomLeft = {x: x, y:y};
+			box2pos.bottomLeft = {x: x, y: y};
 			//TopLeft
 			this.point.set(0, -this.neckLength);
 			this.point.rotate(rotateAmount);

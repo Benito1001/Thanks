@@ -82,7 +82,7 @@ export default class Chopper {
 	draw(ctx) {
 		var rotorLength = this.tileSize*21
 		var tilt = this.vel.x;
-		this.rotorRotation = this.rotorRotation%360+45;
+		this.rotorRotation = this.rotorRotation%360 + 45;
 		ctx.save();
 		ctx.translate(this.x, this.y);
 		ctx.rotate(tilt*(Math.PI/180));
@@ -162,7 +162,7 @@ export default class Chopper {
 
 	cutsceneAi(entities, ctx, dt, scaleFactor) {
 		if (this.moving) {
-			this.move();
+			this.move(dt);
 			this.drawGrabber = false;
 		} else if (!this.hasSucc){
 			for (var i in entities) {
@@ -208,40 +208,41 @@ export default class Chopper {
 		if (this.fighting) {
 			//MoveY
 			if (this.toTank.y > 280) {
-				this.vel.y += 0.1;
+				this.vel.y += 0.1 * dt;
 			} else if (this.toTank.y < 250) {
-				this.vel.y -= 0.1;
+				this.vel.y -= 0.1 * dt;
 			} else {
 				this.vel.y = 0;
 			}
 			//MoveX
-			this.vel.x += -0.1*this.toTank.x/100;
-			this.vel.x *= 0.99;
+			this.vel.x += (-0.1*this.toTank.x/100) * dt;
+			let fRatio = 1 / (1 + (dt * 0.01));
+			this.vel.x *= fRatio;
 
 			//Bombz
-			var bombrate = 40;
+			var bombrate = 40/dt;
 			if (randomInt(0, bombrate) == 3 && this.sinceBombed > bombrate) {
 				this.sinceBombed = 0;
 				entities.push(new Bomb(this.x+this.width/2, this.y+this.height-5*this.tileSize, this.vel, 1));
 			}
-			this.sinceBombed += 1;
+			this.sinceBombed += 1 * dt;
 		} else {
 			this.hp = this.maxHp;
 		}
 	}
 
-	move() {
+	move(dt) {
 		if (this.x+this.width/2 > this.moveToPoint) {
 			if ((this.x+this.width/2-this.moveToPoint) > this.movingLength/2) {
-				this.vel.x -= 0.1;
-				this.x += this.vel.x;
+				this.vel.x -= 0.1 * dt;
+				this.x += this.vel.x * dt;
 			} else {
 				if (this.vel.x < 0) {
-					this.vel.x += 0.1;
-					this.x += this.vel.x;
+					this.vel.x += 0.1 * dt;
+					this.x += this.vel.x * dt;
 				} else {
 					this.vel.x -= 0.1;
-					this.x += this.vel.x;
+					this.x += this.vel.x * dt;
 				}
 			}
 		} else {

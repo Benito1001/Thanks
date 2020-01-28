@@ -32,7 +32,7 @@ export default class Zebra {
 		this.inWallLogic = {toOut: 0, movedOut: 0};
 	}
 	update(entities, ctx, dt) {
-		this.ai();
+		this.ai(dt);
 		this.updateX(entities, ctx, dt);
 		this.updateY(entities, ctx, dt);
 		this.damage();
@@ -112,32 +112,32 @@ export default class Zebra {
 		}
 	}
 
-	ai() {
+	ai(dt) {
 		var turnTime = 400;
 		var speed = 0.1;
 		if (this.moving == "left") {
 			if (this.vel.x < 0) {
 				if (randomInt(turnTime/16, turnTime) > this.timeSinceMoved) {
-					this.vel.x -= speed;
-					this.timeSinceMoved += 1;
+					this.vel.x -= speed * dt;
+					this.timeSinceMoved += 1 * dt;
 				} else {
 					this.moving = "right";
 					this.timeSinceMoved = 0;
 				}
 			} else {
-				this.vel.x -= speed;
+				this.vel.x -= speed * dt;
 			}
 		} else {
 			if (this.vel.x > 0) {
 				if (randomInt(turnTime/16, turnTime) > this.timeSinceMoved) {
-					this.vel.x += speed;
-					this.timeSinceMoved += 1;
+					this.vel.x += speed * dt;
+					this.timeSinceMoved += 1 * dt;
 				} else {
 					this.moving = "left"
 					this.timeSinceMoved = 0;
 				}
 			} else {
-				this.vel.x += speed;
+				this.vel.x += speed * dt;
 			}
 		}
 

@@ -47,7 +47,7 @@ export default class Bullet {
 	}
 	moveY(dt) {
 		this.y += this.vel.y * dt;
-		this.vel.y += 9.81/50;
+		this.vel.y += 9.81/50 * dt;
 	}
 
 	collidesWithX(entities, dt) {
